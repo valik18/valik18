@@ -1,0 +1,21 @@
+def gcd(a, b):
+    while b != 0:
+        a, b = b, a % b
+    return a
+
+def lcm(a, b):
+    return (a * b) // gcd(a, b)
+
+# Зчитуємо вхідні дані
+n = int(input())
+numbers = list(map(int, input().split()))
+
+# Ініціалізуємо НСК першого числа
+lcm_result = numbers[0]
+
+# Знаходимо НСК для решти чисел
+for i in range(1, n):
+    lcm_result = lcm(lcm_result, numbers[i])
+
+# Виводимо результат
+print(lcm_result)
