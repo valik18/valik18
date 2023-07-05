@@ -1,0 +1,38 @@
+#include <stdio.h>
+
+int countNumbers(int r) {
+    int count = 0;
+
+    for (int i = 0; i <= r; i++) {
+        count += countNumbersHelper(i, 0, 0);
+    }
+
+    return count;
+}
+
+int countNumbersHelper(int r, int prevDigit, int consecutiveCount) {
+    if (r == 0) {
+        return 1;
+    }
+
+    int count = 0;
+
+    for (int digit = 5; digit <= 9; digit += 4) {
+        if (digit != prevDigit || consecutiveCount < 2) {
+            count += countNumbersHelper(r - 1, digit, (digit == prevDigit) ? (consecutiveCount + 1) : 1);
+        }
+    }
+
+    return count;
+}
+
+int main() {
+    int r;
+    printf("Введіть число розрядів (р): ");
+    scanf("%d", &r);
+
+    int result = countNumbers(r);
+    printf("Кількість чисел із %d розрядів: %d\n", r, result);
+
+    return 0;
+}
