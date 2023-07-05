@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int calculateMinSteps(int x, int y) {
+    // Перевірка базового випадку, коли x == y
+    if (x == y) {
+        return 0;
+    }
+
+    // Обчислення різниці між x і y
+    int diff = y - x;
+
+    // Створення динамічного масиву для збереження проміжних результатів
+    int *dp = (int *)malloc((diff + 1) * sizeof(int));
+
+    // Ініціалізація перших двох елементів масиву
+    dp[0] = 0;
+    dp[1] = 1;
+
+    // Обчислення мінімальної кількості кроків
+    for (int i = 2; i <= diff; i++) {
+        if (i % 2 == 0) {
+            // Якщо i парне, використовуємо попередній елемент dp[i/2] + 1
+            dp[i] = dp[i/2] + 1;
+        } else {
+            // Якщо i непарне, використовуємо мінімум з двох попередніх елементів dp[(i-1)/2] + 2 та dp[(i+1)/2] + 2
+            dp[i] = dp[(i-1)/2] + 2;
+            if (i + 1 <= diff) {
+                dp[i] = (dp[(i+1)/2] + 2) < dp[i] ? (dp[(i+1)/2] + 2) : dp[i];
+            }
+        }
+    }
+
+    int minSteps = dp[diff]; // Мінімальна кількість кроків
+    free(dp); // Видалення виділеної пам'яті
+
+    return minSteps;
+}
+
+int main() {
+    int x, y;
+    int minSteps;
+
+    printf("Введіть значення x: ");
+    scanf("%d", &x);
+
+    printf("Введіть значення y: ");
+    scanf("%d", &y);
+
+    minSteps = calculateMinSteps(x, y);
+
+    printf("Мінімальна кількість кроків: %d\n", minSteps);
+
+    return 0;
+}
