@@ -1,0 +1,25 @@
+#include <stdio.h>
+
+int countSequences(int n) {
+    int countEndingWithZero = 1;
+    int countEndingWithOne = 1;
+
+    for (int i = 2; i <= n; i++) {
+        int temp = countEndingWithZero;
+        countEndingWithZero = (countEndingWithZero + countEndingWithOne) % 12345;
+        countEndingWithOne = temp;
+    }
+
+    return (countEndingWithZero + countEndingWithOne) % 12345;
+}
+
+int main() {
+    int n;
+    printf("Введіть довжину послідовності (n): ");
+    scanf("%d", &n);
+
+    int result = countSequences(n);
+    printf("Кількість шуканих послідовностей: %d\n", result);
+
+    return 0;
+}
